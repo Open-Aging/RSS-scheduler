@@ -9,8 +9,11 @@ headers = {
     'Content-Type': 'application/json'
 }
 
-url = 'https://note.com/igem_ninjas/rss'
-req = requests.get(url)
+# rss_url = 'https://note.com/igem_ninjas/rss'
+# rss_url = 'https://escholarship.org/rss/unit/iha'
+rss_url = 'https://news.mit.edu/topic/mitaging-rss.xml'
+
+req = requests.get(rss_url)
 txt = BeautifulSoup(req.text, 'xml')
 
 # CSVファイルのパス
@@ -56,16 +59,19 @@ with open(csv_file_path, mode='a', newline='', encoding='utf-8') as csv_file:
             post_articles.append([last_index, link])
 
     formatted_data = [f'{item[0]}' + ', ' + f'{item[1]}' for item in post_articles]
-    message_content = '\n \n'.join(formatted_data)
 
-    print(message_content)
-    data = {
-        "content": message_content
-    }
+    formatted_data_splited = [formatted_data[i:i + 5] for i in range(0, len(formatted_data), 5)]
+    for i in range(len(formatted_data_splited)):
+        message_content = '\n \n'.join(formatted_data_splited[i]) + '\n \n https://chat.openai.com/g/g-kN03aPU6N-aging-insights-assistant'
 
-    print(data)
-    response = requests.post(webhook_url, data=json.dumps(data), headers=headers)
-    if response.status_code == 204:
-        print("Success!")
-    else:
-        print(f"Failed to post data. Status code: {response.status_code}")
+        print(message_content)
+        data = {
+            "content": message_content
+        }
+
+        print(data)
+        response = requests.post(webhook_url, data=json.dumps(data), headers=headers)
+        if response.status_code == 204:
+            print("Success!")
+        else:
+            print(f"Failed to post data. Status code: {response.status_code}")
