@@ -2,6 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import os
+import json
+
+webhook_url = 'https://discord.com/api/webhooks/1209480639167070218/7D-ktxpEgCH1UA7C1jcUcs1bQuyNQWZUvQofdDt2dhN6NZn6Es8C5WoRj5BxOzOM8NWD'
+headers = {
+    'Content-Type': 'application/json'
+}
 
 url = 'https://note.com/igem_ninjas/rss'
 req = requests.get(url)
@@ -26,6 +32,7 @@ if os.path.exists(csv_file_path):
 
 # 新しい記事の情報を追加
 with open(csv_file_path, mode='a', newline='', encoding='utf-8') as csv_file:
+    post_articles = []
     fieldnames = ['index', 'title', 'description', 'url']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     # ファイルが新しく作成される場合、ヘッダーを追加
@@ -45,3 +52,20 @@ with open(csv_file_path, mode='a', newline='', encoding='utf-8') as csv_file:
             last_index += 1  # 新しいindexを割り当て
             writer.writerow({'index': last_index, 'title': title, 'description': description, 'url': link})
             existing_urls.add(link)  # 追加したURLをセットに追加
+
+            post_articles.append([last_index, link])
+
+    formatted_data = [f'{item[0]}' + ',' + f'{item[1]}' for item in post_articles]
+    message_content = '\n'.join(formatted_data)
+
+    print(message_content)
+    data = {
+        "content": message_content
+    }
+
+    print(data)
+    response = requests.post(webhook_url, data=json.dumps(data), headers=headers)
+    if response.status_code == 204:
+        print("Success!")
+    else:
+        print(f"Failed to post data. Status code: {response.status_code}")
