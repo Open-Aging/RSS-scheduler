@@ -24,13 +24,10 @@ jobs:
         run: python rss_scraper.py
       - name: Add CSV to Git
         run: |
-          git config --local user.email "${{ secrets.USER_EMAIL }}"
-          git config --local user.name "${{ secrets.USER_NAME }}"
+          git config --local user.email "GitHub Actions"
+          git config --local user.name "github-actions@github.com"
           git add data.csv # 生成されたCSVファイルを追加
       - name: Commit changes
         run: git commit -m "Update CSV file" -a || echo "No changes to commit"
       - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          branch: "main"
+        run: git push origin HEAD:main || echo "No changes to push"
