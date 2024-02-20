@@ -22,3 +22,14 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run Python
         run: python rss_scraper.py
+      - name: Add CSV to Git
+        run: |
+          git config --local user.email "${{ secrets.USER_EMAIL }}"
+          git config --local user.name "${{ secrets.USER_NAME }}"
+          git add data.csv # 生成されたCSVファイルを追加
+      - name: Commit changes
+        run: git commit -m "Update CSV file" -a || echo "No changes to commit"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: "main"
