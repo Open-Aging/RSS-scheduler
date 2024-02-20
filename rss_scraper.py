@@ -55,8 +55,8 @@ with open(csv_file_path, mode='a', newline='', encoding='utf-8') as csv_file:
 
             post_articles.append([last_index, link])
 
-    formatted_data = [f'{item[0]}' + ',' + f'{item[1]}' for item in post_articles]
-    message_content = '\n'.join(formatted_data)
+    formatted_data = [f'{item[0]}' + ', ' + f'{item[1]}' for item in post_articles]
+    message_content = '\n \n'.join(formatted_data)
 
     print(message_content)
     data = {
