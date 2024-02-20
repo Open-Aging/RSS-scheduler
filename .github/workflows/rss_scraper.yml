@@ -1,4 +1,4 @@
-name: Action Sample
+name: RSS scraper
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  numpy-test:
+  Run scraping:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
