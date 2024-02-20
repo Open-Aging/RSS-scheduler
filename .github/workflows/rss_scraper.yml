@@ -7,11 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-<<<<<<< HEAD:.github/workflows/actions_sample.yml
-  main:
-=======
   run-scraping:
->>>>>>> origin/master:.github/workflows/rss_scraper.yml
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,23 +20,5 @@ jobs:
         run: python -V
       - name: Install dependencies
         run: pip install -r requirements.txt
-<<<<<<< HEAD:.github/workflows/actions_sample.yml
-      - name: Run hello_world
-        run: python hello_world.py
-      - name: Run rss_scraper
-        run: python rss_scraper.py
-      - name: Add CSV to Git
-        run: |
-          git config --local user.email "${{ secrets.USER_EMAIL }}"
-          git config --local user.name "${{ secrets.USER_NAME }}"
-          git add your_data.csv # 生成されたCSVファイルを追加
-      - name: Commit changes
-        run: git commit -m "Update CSV file" -a || echo "No changes to commit"
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          branch: "main"
-=======
       - name: Run Python
         run: python rss_scraper.py
->>>>>>> origin/master:.github/workflows/rss_scraper.yml
