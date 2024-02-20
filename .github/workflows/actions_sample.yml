@@ -20,5 +20,7 @@ jobs:
         run: python -V
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run Python
+      - name: Run hello_world
         run: python hello_world.py
+      - name: Run rss_scraper
+        run: python rss_scraper.py
